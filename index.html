@@ -1,0 +1,1752 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Internship Dashboard</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+        <style>
+            :root {
+                --pwc-orange: #D04A02;
+                --pwc-orange-light: #E85D0F;
+                --pwc-yellow: #FFB600;
+                --pwc-dark: #2D2D2D;
+                --pwc-darker: #1A1A1A;
+                --pwc-rose: #D93954;
+                --pwc-gray: #7D7D7D;
+                --pwc-light-gray: #E8E2DC;
+                --pwc-light: #F9F6F3;
+                --pwc-warm-white: #FFFAF5;
+                --card-bg: #ffffff;
+                --text: #2D2D2D;
+                --text-light: #5A5A5A;
+                --gradient-dark: linear-gradient(135deg, #2D2D2D 0%, #1A1A1A 100%);
+                --gradient-orange: linear-gradient(135deg, #D04A02 0%, #E85D0F 100%);
+                --gradient-warm: linear-gradient(135deg, #D04A02 0%, #FFB600 100%);
+                --gradient-rose: linear-gradient(135deg, #D93954 0%, #E85D0F 100%);
+                --shadow: 0 10px 40px rgba(45, 45, 45, 0.08);
+                --shadow-hover: 0 20px 60px rgba(45, 45, 45, 0.15);
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            html {
+                scroll-behavior: smooth;
+            }
+
+            body {
+                font-family: 'Inter', sans-serif;
+                background: var(--pwc-light);
+                color: var(--text);
+                line-height: 1.6;
+            }
+
+            /* Navigation */
+            nav {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 1000;
+                background: rgba(45, 45, 45, 0.97);
+                backdrop-filter: blur(20px);
+                padding: 0 2rem;
+                box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+                transition: all 0.3s ease;
+            }
+
+            nav .nav-container {
+                max-width: 1200px;
+                margin: 0 auto;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                height: 70px;
+            }
+
+            nav .logo {
+                font-family: 'Playfair Display', serif;
+                font-size: 1.4rem;
+                color: #fff;
+                font-weight: 700;
+                letter-spacing: 1px;
+            }
+
+            nav .logo span {
+                color: var(--pwc-orange);
+            }
+
+            nav ul {
+                list-style: none;
+                display: flex;
+                gap: 0.5rem;
+            }
+
+            nav ul li a {
+                color: rgba(255,255,255,0.7);
+                text-decoration: none;
+                font-size: 0.85rem;
+                font-weight: 500;
+                padding: 0.5rem 1rem;
+                border-radius: 25px;
+                transition: all 0.3s ease;
+            }
+
+            nav ul li a:hover {
+                color: #fff;
+                background: rgba(208, 74, 2, 0.25);
+            }
+
+            nav ul li a.active {
+                color: #fff;
+                background: var(--pwc-orange);
+            }
+
+            /* Go to Top Button */
+            .go-top {
+                position: fixed;
+                bottom: 2rem;
+                right: 2rem;
+                width: 50px;
+                height: 50px;
+                background: var(--gradient-orange);
+                border: none;
+                border-radius: 50%;
+                color: #fff;
+                font-size: 1.2rem;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 5px 20px rgba(208, 74, 2, 0.4);
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(20px);
+                transition: all 0.3s ease;
+                z-index: 999;
+            }
+
+            .go-top.visible {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+
+            .go-top:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 30px rgba(208, 74, 2, 0.6);
+            }
+
+            /* Sections */
+            section {
+                padding: 6rem 2rem;
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+
+            .section-title {
+                font-family: 'Playfair Display', serif;
+                font-size: 2.5rem;
+                margin-bottom: 0.5rem;
+                color: var(--pwc-dark);
+            }
+
+            .section-subtitle {
+                color: var(--text-light);
+                font-size: 1rem;
+                margin-bottom: 3rem;
+                font-weight: 400;
+            }
+
+            /* Hero / Profile Section */
+            #profile {
+                padding-top: 10rem;
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+            }
+
+            .profile-container {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                text-align: left;
+                width: 100%;
+                position: relative;
+            }
+
+            .profile-info {
+                animation: fadeIn 1s ease;
+                position: relative;
+                z-index: 1;
+                flex: 1;
+            }
+
+            .profile-photo {
+                width: 220px;
+                height: 220px;
+                border-radius: 50%;
+                background: var(--gradient-orange);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+                margin-left: 3rem;
+                position: relative;
+                z-index: 1;
+                box-shadow: 0 15px 40px rgba(208, 74, 2, 0.3);
+                overflow: hidden;
+                animation: fadeIn 1s ease 0.3s both;
+            }
+
+            .profile-photo img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: center 20%;
+                border-radius: 50%;
+                transform: scale(1.4);
+                transform-origin: center 30%;
+            }
+
+            .profile-info .greeting {
+                font-size: 1rem;
+                color: var(--pwc-orange);
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 3px;
+                margin-bottom: 1rem;
+            }
+
+            .profile-info h1 {
+                font-family: 'Playfair Display', serif;
+                font-size: 3.5rem;
+                color: var(--pwc-dark);
+                margin-bottom: 1rem;
+                line-height: 1.2;
+            }
+
+            .profile-info .tagline {
+                font-size: 1.2rem;
+                color: var(--text-light);
+                margin-bottom: 1.5rem;
+            }
+
+            .profile-decor {
+                position: absolute;
+                border-radius: 50%;
+                opacity: 0.6;
+                animation: float 6s ease-in-out infinite;
+            }
+
+            .profile-decor-1 {
+                width: 200px;
+                height: 200px;
+                background: radial-gradient(circle, rgba(208, 74, 2, 0.15) 0%, transparent 70%);
+                top: -40px;
+                right: 5%;
+                animation-delay: 0s;
+            }
+
+            .profile-decor-2 {
+                width: 150px;
+                height: 150px;
+                background: radial-gradient(circle, rgba(255, 182, 0, 0.15) 0%, transparent 70%);
+                bottom: 0;
+                left: 8%;
+                animation-delay: 2s;
+            }
+
+            .profile-decor-3 {
+                width: 100px;
+                height: 100px;
+                background: radial-gradient(circle, rgba(217, 57, 84, 0.12) 0%, transparent 70%);
+                top: 30%;
+                left: 3%;
+                animation-delay: 4s;
+            }
+
+            .profile-decor-4 {
+                width: 80px;
+                height: 80px;
+                background: radial-gradient(circle, rgba(208, 74, 2, 0.12) 0%, transparent 70%);
+                top: 20%;
+                right: 3%;
+                animation-delay: 1s;
+            }
+
+            @keyframes float {
+                0%, 100% { transform: translateY(0px); }
+                50% { transform: translateY(-20px); }
+            }
+
+            .profile-divider {
+                width: 60px;
+                height: 4px;
+                background: var(--gradient-orange);
+                border-radius: 2px;
+                margin: 1.5rem 0;
+            }
+
+            /* Internship Journey */
+            #journey {
+                background: #fff;
+                border-radius: 30px;
+                margin: 2rem auto;
+                box-shadow: var(--shadow);
+                max-width: 1200px;
+            }
+
+            .journey-overview {
+                background: var(--gradient-dark);
+                border-radius: 20px;
+                padding: 1.5rem 2rem;
+                color: #fff;
+                margin-bottom: 3rem;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .journey-overview::before {
+                content: '';
+                position: absolute;
+                top: -50px;
+                right: -50px;
+                width: 250px;
+                height: 250px;
+                background: radial-gradient(circle, rgba(208, 74, 2, 0.35) 0%, transparent 70%);
+                border-radius: 50%;
+            }
+
+            .journey-overview::after {
+                content: '';
+                position: absolute;
+                bottom: -80px;
+                left: -40px;
+                width: 200px;
+                height: 200px;
+                background: radial-gradient(circle, rgba(255, 182, 0, 0.15) 0%, transparent 70%);
+                border-radius: 50%;
+            }
+
+            .journey-highlights-only {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1.5rem;
+                position: relative;
+            }
+
+            .journey-highlight-card {
+                background: rgba(255,255,255,0.08);
+                border: 1px solid rgba(255,255,255,0.12);
+                border-radius: 12px;
+                padding: 0.85rem;
+                text-align: center;
+                transition: all 0.3s ease;
+            }
+
+            .journey-highlight-card:hover {
+                background: rgba(208, 74, 2, 0.2);
+                border-color: rgba(208, 74, 2, 0.4);
+                transform: translateY(-3px);
+            }
+
+            .journey-highlight-card .highlight-icon {
+                font-size: 1.1rem;
+                margin-bottom: 0.3rem;
+            }
+
+            .journey-highlight-card .highlight-number {
+                font-size: 1.1rem;
+                font-weight: 700;
+                color: var(--pwc-yellow);
+            }
+
+            .journey-highlight-card .highlight-label {
+                font-size: 0.65rem;
+                opacity: 0.7;
+                margin-top: 0.2rem;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+
+            .week-tabs {
+                display: flex;
+                gap: 0.5rem;
+                margin-bottom: 2rem;
+                flex-wrap: wrap;
+            }
+
+            .week-tab {
+                padding: 0.75rem 1.5rem;
+                border: 2px solid var(--pwc-light-gray);
+                border-radius: 30px;
+                background: transparent;
+                cursor: pointer;
+                font-size: 0.9rem;
+                font-weight: 500;
+                color: var(--text);
+                transition: all 0.3s ease;
+                font-family: 'Inter', sans-serif;
+            }
+
+            .week-tab:hover,
+            .week-tab.active {
+                background: var(--pwc-orange);
+                color: #fff;
+                border-color: var(--pwc-orange);
+            }
+
+            .week-content {
+                display: none;
+                animation: fadeIn 0.5s ease;
+            }
+
+            .week-content.active {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+                align-items: start;
+            }
+
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+
+            .week-image {
+                width: 100%;
+                height: 280px;
+                border-radius: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #fff;
+                font-size: 1rem;
+                font-weight: 500;
+            }
+
+            .week-experience {
+                padding: 1rem 0;
+            }
+
+            .week-experience h4 {
+                font-size: 1.2rem;
+                margin-bottom: 1rem;
+                color: var(--pwc-dark);
+            }
+
+            .week-experience p {
+                color: var(--text-light);
+                line-height: 1.8;
+            }
+
+            /* Project Work */
+            .project-card {
+                background: #fff;
+                border-radius: 24px;
+                padding: 3rem;
+                margin-bottom: 3rem;
+                box-shadow: var(--shadow);
+                border: 1px solid rgba(0,0,0,0.05);
+                transition: all 0.3s ease;
+            }
+
+            .project-card:hover {
+                box-shadow: var(--shadow-hover);
+                transform: translateY(-5px);
+            }
+
+            .project-header {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .project-icon {
+                width: 60px;
+                height: 60px;
+                border-radius: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.5rem;
+                color: #fff;
+            }
+
+            .project-header h3 {
+                font-size: 1.6rem;
+                color: var(--pwc-dark);
+            }
+
+            .project-header .project-label {
+                font-size: 0.8rem;
+                color: var(--text-light);
+                text-transform: uppercase;
+                letter-spacing: 2px;
+            }
+
+            .project-about {
+                background: var(--pwc-light);
+                padding: 0.75rem 1.2rem;
+                border-radius: 10px;
+                margin-bottom: 1.5rem;
+                color: var(--text-light);
+                font-size: 0.85rem;
+                line-height: 1.6;
+                border-left: 4px solid var(--pwc-orange);
+            }
+
+            .value-additions {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1rem;
+                margin-bottom: 2rem;
+            }
+
+            .value-card {
+                background: var(--pwc-light);
+                border-radius: 16px;
+                padding: 1.5rem;
+                text-align: center;
+                border: 2px solid transparent;
+                transition: all 0.3s ease;
+            }
+
+            .value-card:hover {
+                border-color: var(--pwc-orange);
+                transform: translateY(-3px);
+                box-shadow: 0 8px 25px rgba(208, 74, 2, 0.15);
+            }
+
+            .value-card .value-icon {
+                font-size: 2rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .value-card h4 {
+                font-size: 0.85rem;
+                color: var(--pwc-dark);
+                font-weight: 600;
+            }
+
+            .project-images {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1rem;
+                margin-bottom: 2rem;
+            }
+
+            .project-img {
+                height: 150px;
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #fff;
+                font-weight: 500;
+                font-size: 0.85rem;
+            }
+
+            /* Key Contribution Cards */
+            .contribution-grid {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1.25rem;
+                margin-bottom: 2rem;
+            }
+
+            .contribution-card {
+                background: linear-gradient(135deg, #FFF7F0 0%, #FFEDE0 100%);
+                border-radius: 14px;
+                padding: 2rem 1.5rem;
+                text-align: center;
+                border: 1px solid rgba(208, 74, 2, 0.12);
+                border-top: 3px solid var(--pwc-orange);
+                transition: all 0.3s ease;
+                cursor: pointer;
+                position: relative;
+                overflow: hidden;
+                min-height: 180px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 2px 8px rgba(208, 74, 2, 0.06);
+            }
+
+            .contribution-card::before {
+                content: '';
+                position: absolute;
+                bottom: -40px;
+                right: -40px;
+                width: 90px;
+                height: 90px;
+                background: rgba(208, 74, 2, 0.08);
+                border-radius: 50%;
+                transition: transform 0.4s ease;
+            }
+
+            .contribution-card:hover::before {
+                transform: scale(2);
+            }
+
+            .contribution-card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 10px 30px rgba(208, 74, 2, 0.15);
+                background: linear-gradient(135deg, #FFEDE0 0%, #FFD9C0 100%);
+            }
+
+            .contribution-card::after {
+                content: 'Click to see the work \2192';
+                position: absolute;
+                bottom: 0.75rem;
+                left: 50%;
+                transform: translateX(-50%) translateY(5px);
+                font-size: 0.65rem;
+                color: var(--pwc-orange);
+                font-weight: 600;
+                letter-spacing: 0.5px;
+                opacity: 0;
+                transition: opacity 0.3s ease, transform 0.3s ease;
+                pointer-events: none;
+                z-index: 2;
+            }
+
+            .contribution-card:hover::after {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+
+            .contribution-card .card-default {
+                transition: opacity 0.4s ease, transform 0.4s ease;
+            }
+
+            .contribution-card .card-hover {
+                position: absolute;
+                inset: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 1.5rem 1.5rem 2.5rem;
+                background: linear-gradient(135deg, #FFEDE0 0%, #FFD9C0 100%);
+                opacity: 0;
+                transform: translateY(10px);
+                transition: opacity 0.3s ease, transform 0.3s ease;
+                border-radius: 14px;
+                text-align: center;
+            }
+
+            .contribution-card:hover .card-default {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            .contribution-card:hover .card-hover {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            /* Fullscreen Lightbox */
+            .lightbox-overlay {
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.9);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 10000;
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.3s ease, visibility 0.3s ease;
+            }
+
+            .lightbox-overlay.active {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .lightbox-overlay img {
+                max-width: 90%;
+                max-height: 90vh;
+                border-radius: 12px;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+                transform: scale(0.9);
+                transition: transform 0.3s ease;
+            }
+
+            .lightbox-overlay.active img {
+                transform: scale(1);
+            }
+
+            .lightbox-close {
+                position: absolute;
+                top: 2rem;
+                right: 2rem;
+                width: 50px;
+                height: 50px;
+                background: rgba(255, 255, 255, 0.15);
+                border: 2px solid rgba(255, 255, 255, 0.4);
+                border-radius: 50%;
+                color: #fff;
+                font-size: 1.5rem;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.3s ease;
+            }
+
+            .lightbox-close:hover {
+                background: var(--pwc-orange);
+                border-color: var(--pwc-orange);
+                transform: scale(1.1);
+            }
+
+            .contribution-card .card-text {
+                font-size: 0.9rem;
+                color: var(--pwc-dark);
+                font-weight: 600;
+                line-height: 1.6;
+                letter-spacing: -0.01em;
+            }
+
+            .contribution-card .card-hover p {
+                font-size: 0.82rem;
+                color: var(--text-light);
+                line-height: 1.7;
+                font-style: italic;
+            }
+
+            @media (max-width: 768px) {
+                .contribution-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+            }
+
+            .learnings-section {
+                display: flex;
+                gap: 2rem;
+                flex-wrap: wrap;
+            }
+
+            .learning-bubble {
+                flex: 1;
+                min-width: 200px;
+                background: var(--gradient-dark);
+                color: #fff;
+                padding: 2rem;
+                border-radius: 20px;
+                text-align: center;
+                font-weight: 500;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .learning-bubble::after {
+                content: '';
+                position: absolute;
+                bottom: -20px;
+                right: -20px;
+                width: 80px;
+                height: 80px;
+                background: rgba(208, 74, 2, 0.4);
+                border-radius: 50%;
+            }
+
+            /* Re-invest Section */
+            #reinvest {
+                background: #fff;
+                border-radius: 30px;
+                margin: 2rem auto;
+                box-shadow: var(--shadow);
+                max-width: 1200px;
+            }
+
+            .reinvest-about {
+                background: var(--pwc-warm-white);
+                padding: 0.75rem 1.2rem;
+                border-radius: 10px;
+                margin-bottom: 1.5rem;
+                border-left: 4px solid var(--pwc-yellow);
+                color: var(--text-light);
+                font-size: 0.85rem;
+                line-height: 1.6;
+            }
+
+            .impact-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1.5rem;
+                margin-bottom: 2.5rem;
+            }
+
+            .impact-card {
+                background: var(--gradient-dark);
+                border-radius: 20px;
+                padding: 2rem 1.5rem;
+                text-align: center;
+                transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;
+                color: #fff;
+            }
+
+            .impact-card::before {
+                content: '';
+                position: absolute;
+                top: -30px;
+                right: -30px;
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                transition: all 0.4s ease;
+            }
+
+            .impact-card:nth-child(1)::before {
+                background: rgba(208, 74, 2, 0.3);
+            }
+
+            .impact-card:nth-child(2)::before {
+                background: rgba(255, 182, 0, 0.3);
+            }
+
+            .impact-card:nth-child(3)::before {
+                background: rgba(217, 57, 84, 0.3);
+            }
+
+            .impact-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 40px rgba(45, 45, 45, 0.3);
+            }
+
+            .impact-card:hover::before {
+                transform: scale(2.5);
+            }
+
+            .impact-card .impact-icon {
+                font-size: 2rem;
+                margin-bottom: 0.75rem;
+                position: relative;
+            }
+
+            .impact-card .impact-number {
+                font-size: 2.5rem;
+                font-weight: 800;
+                color: var(--pwc-yellow);
+                margin-bottom: 0.5rem;
+                position: relative;
+            }
+
+            .impact-card p {
+                font-size: 0.9rem;
+                font-weight: 500;
+                opacity: 0.9;
+                position: relative;
+            }
+
+            .cta-link {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                background: var(--gradient-orange);
+                color: #fff;
+                padding: 1rem 2rem;
+                border-radius: 30px;
+                text-decoration: none;
+                font-weight: 600;
+                transition: all 0.3s ease;
+                box-shadow: 0 5px 20px rgba(208, 74, 2, 0.3);
+            }
+
+            .cta-link:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 10px 30px rgba(208, 74, 2, 0.5);
+            }
+
+            /* AI Impact */
+            #ai-impact {
+                background: #fff;
+                border-radius: 30px;
+                margin: 2rem auto;
+                max-width: 1200px;
+                color: var(--text);
+                position: relative;
+                overflow: hidden;
+                box-shadow: var(--shadow);
+            }
+
+            #ai-impact .section-title {
+                color: var(--pwc-dark);
+            }
+
+            #ai-impact .section-subtitle {
+                color: var(--text-light);
+            }
+
+            .ai-about {
+                background: var(--pwc-light);
+                padding: 0.75rem 1.2rem;
+                border-radius: 10px;
+                margin-bottom: 1.5rem;
+                color: var(--text-light);
+                font-size: 0.85rem;
+                line-height: 1.6;
+                border-left: 4px solid var(--pwc-orange);
+            }
+
+            .ai-impact-grid {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1.5rem;
+                margin-bottom: 2.5rem;
+            }
+
+            .ai-impact-card {
+                background: var(--pwc-light);
+                border: 1px solid rgba(0,0,0,0.05);
+                border-radius: 16px;
+                padding: 2rem 1.5rem;
+                text-align: center;
+                transition: all 0.3s ease;
+            }
+
+            .ai-impact-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 30px rgba(45, 45, 45, 0.1);
+            }
+
+            .ai-impact-card .ai-number {
+                font-size: 2rem;
+                margin-bottom: 0.5rem;
+                color: var(--pwc-orange);
+            }
+
+            .ai-impact-card p {
+                font-size: 0.85rem;
+                color: var(--text-light);
+                font-weight: 500;
+            }
+
+            .try-me-btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.75rem;
+                background: var(--pwc-orange);
+                color: #fff;
+                padding: 1rem 2.5rem;
+                border-radius: 30px;
+                text-decoration: none;
+                font-weight: 600;
+                font-size: 1.1rem;
+                transition: all 0.3s ease;
+                box-shadow: 0 5px 30px rgba(208, 74, 2, 0.4);
+            }
+
+            .try-me-btn:hover {
+                transform: scale(1.05);
+                box-shadow: 0 10px 40px rgba(208, 74, 2, 0.6);
+            }
+
+            /* Feedback */
+            .feedback-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .feedback-card {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .feedback-card .feedback-block {
+                flex: 1;
+                border: 3px solid transparent;
+                border-radius: 10px;
+                padding: 1.2rem;
+                font-size: 0.82rem;
+                line-height: 1.55;
+                color: #333;
+                background: #fff;
+                background-clip: padding-box;
+                position: relative;
+            }
+
+            .feedback-card .feedback-block::before {
+                content: '';
+                position: absolute;
+                inset: -3px;
+                border-radius: 12px;
+                background: linear-gradient(135deg, #D04A02, #FFB600, #E85D0F, #D93954);
+                z-index: -1;
+            }
+
+            .feedback-card:nth-child(2) .feedback-block::before {
+                background: linear-gradient(135deg, #FFB600, #D04A02, #D93954, #E85D0F);
+            }
+
+            .feedback-card:nth-child(3) .feedback-block::before {
+                background: linear-gradient(135deg, #E85D0F, #D93954, #FFB600, #D04A02);
+            }
+
+            .feedback-card:nth-child(4) .feedback-block::before {
+                background: linear-gradient(135deg, #D93954, #E85D0F, #D04A02, #FFB600);
+            }
+
+            .feedback-card .author {
+                text-align: center;
+                margin-top: 0.75rem;
+                font-weight: 600;
+                font-style: italic;
+                color: var(--pwc-dark);
+                font-size: 0.85rem;
+            }
+
+            /* Key Learnings & Experience */
+            .learnings-grid {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1.5rem;
+                margin-bottom: 2.5rem;
+            }
+
+            .learning-card {
+                background: #fff;
+                border-radius: 10px;
+                border-top: 4px solid var(--pwc-orange);
+                box-shadow: var(--shadow);
+                padding: 1.5rem 1.2rem;
+                position: relative;
+                overflow: hidden;
+                transition: all 0.3s ease;
+            }
+
+            .learning-card:hover {
+                transform: translateY(-5px);
+                box-shadow: var(--shadow-hover);
+            }
+
+            .learning-card .learning-header {
+                display: flex;
+                align-items: flex-start;
+                justify-content: space-between;
+                margin-bottom: 0.75rem;
+            }
+
+            .learning-card .learning-icon {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background: #5C1A3A;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #fff;
+                font-size: 1rem;
+            }
+
+            .learning-card .learning-number {
+                font-size: 1.8rem;
+                font-weight: 700;
+                color: var(--pwc-orange);
+                opacity: 0.6;
+            }
+
+            .learning-card .learning-title {
+                font-size: 0.95rem;
+                font-weight: 700;
+                color: var(--pwc-dark);
+                line-height: 1.4;
+                margin-bottom: 0.5rem;
+            }
+
+            .learning-card .learning-default {
+                transition: opacity 0.3s ease, transform 0.3s ease;
+            }
+
+            .learning-card .learning-detail {
+                position: absolute;
+                inset: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 1.5rem;
+                font-size: 0.82rem;
+                color: var(--text-light);
+                line-height: 1.6;
+                text-align: center;
+                background: #fff;
+                border-radius: 10px;
+                opacity: 0;
+                transform: translateY(10px);
+                transition: opacity 0.3s ease, transform 0.3s ease;
+            }
+
+            .learning-card:hover .learning-default {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            .learning-card:hover .learning-detail {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .experience-block {
+                background: var(--gradient-dark);
+                border-radius: 20px;
+                padding: 2.5rem;
+                color: #fff;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .experience-block::before {
+                content: '';
+                position: absolute;
+                top: -50px;
+                right: -50px;
+                width: 200px;
+                height: 200px;
+                background: radial-gradient(circle, rgba(208, 74, 2, 0.3) 0%, transparent 70%);
+                border-radius: 50%;
+            }
+
+            .experience-block h3 {
+                font-size: 1.3rem;
+                margin-bottom: 1rem;
+                position: relative;
+            }
+
+            .experience-block p {
+                font-size: 0.95rem;
+                line-height: 1.8;
+                opacity: 0.9;
+                position: relative;
+            }
+
+            /* Footer */
+            footer {
+                text-align: center;
+                padding: 3rem 2rem;
+                color: var(--text-light);
+                font-size: 0.9rem;
+            }
+
+            footer span {
+                color: var(--pwc-orange);
+                font-weight: 600;
+            }
+
+            /* Animations */
+            @keyframes fadeInLeft {
+                from { opacity: 0; transform: translateX(-30px); }
+                to { opacity: 1; transform: translateX(0); }
+            }
+
+            @keyframes fadeInRight {
+                from { opacity: 0; transform: translateX(30px); }
+                to { opacity: 1; transform: translateX(0); }
+            }
+
+            .fade-in {
+                opacity: 0;
+                transform: translateY(30px);
+                transition: all 0.8s ease;
+            }
+
+            .fade-in.visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            /* Responsive */
+            @media (max-width: 768px) {
+                .profile-container {
+                    flex-direction: column;
+                    text-align: center;
+                }
+
+                .profile-photo {
+                    margin-left: 0;
+                    margin-top: 2rem;
+                    width: 180px;
+                    height: 180px;
+                }
+
+                .profile-divider {
+                    margin: 1.5rem auto;
+                }
+
+                .profile-info h1 {
+                    font-size: 2.5rem;
+                }
+
+                nav ul {
+                    gap: 0.25rem;
+                }
+
+                nav ul li a {
+                    font-size: 0.75rem;
+                    padding: 0.4rem 0.6rem;
+                }
+
+                .journey-highlights-only {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+
+                .week-content.active {
+                    grid-template-columns: 1fr;
+                }
+
+                .value-additions,
+                .project-images,
+                .impact-grid,
+                .ai-impact-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+
+                .feedback-grid {
+                    grid-template-columns: 1fr;
+                }
+
+                .learnings-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+
+                .journey-highlights-only {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+            }
+        </style>
+    </head>
+    <body>
+
+        <!-- Navigation -->
+        <nav>
+            <div class="nav-container">
+                <div class="logo">My<span>Intern</span>Ship</div>
+                <ul>
+                    <li><a href="#profile" class="active">Profile</a></li>
+                    <li><a href="#journey">Journey</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#reinvest">Re-invest</a></li>
+                    <li><a href="#ai-impact">AI Impact</a></li>
+                    <li><a href="#feedback">Feedback</a></li>
+                    <li><a href="#learnings">Learnings</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Go to Top Button -->
+        <button class="go-top" id="goTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">&#8593;</button>
+
+        <!-- Profile Section -->
+        <section id="profile">
+            <div class="profile-container">
+                <div class="profile-decor profile-decor-1"></div>
+                <div class="profile-decor profile-decor-2"></div>
+                <div class="profile-decor profile-decor-3"></div>
+                <div class="profile-decor profile-decor-4"></div>
+                <div class="profile-info">
+                    <p class="greeting">Hello, I'm</p>
+                    <h1>Garima Gupta</h1>
+                    <p class="tagline">Summer Intern 2026 &bull; Corporate Deals Technology</p>
+                    <div class="profile-divider"></div>
+                    <p class="tagline" style="margin-top: 0; font-size: 0.95rem; font-style: italic;">Let's look at a 2-month summer sprint through integration deals, dashboards, AI ideas, and plenty of learning moments</p>
+                </div>
+                <div class="profile-photo">
+                    <img src="profile.jpg" alt="Garima Gupta">
+                </div>
+            </div>
+        </section>
+
+        <!-- Internship Journey Section -->
+        <section id="journey">
+            <h2 class="section-title fade-in">Internship Journey</h2>
+            <p class="section-subtitle fade-in">8 weeks of learning, building, and growing</p>
+
+            <div class="journey-overview fade-in">
+                <div class="journey-highlights-only">
+                    <div class="journey-highlight-card">
+                        <div class="highlight-icon">&#128197;</div>
+                        <div class="highlight-number">8</div>
+                        <div class="highlight-label">Weeks</div>
+                    </div>
+                    <div class="journey-highlight-card">
+                        <div class="highlight-icon">&#128736;</div>
+                        <div class="highlight-number">2</div>
+                        <div class="highlight-label">Projects</div>
+                    </div>
+                    <div class="journey-highlight-card">
+                        <div class="highlight-icon">&#129309;</div>
+                        <div class="highlight-number">1</div>
+                        <div class="highlight-label">Re-Invest</div>
+                    </div>
+                    <div class="journey-highlight-card">
+                        <div class="highlight-icon">&#128161;</div>
+                        <div class="highlight-number">&#8734;</div>
+                        <div class="highlight-label">Learnings</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="week-tabs fade-in">
+                <button class="week-tab active" data-week="1">Week 1 - 2</button>
+                <button class="week-tab" data-week="2">Week 3 - 4</button>
+                <button class="week-tab" data-week="3">Week 5 - 6</button>
+                <button class="week-tab" data-week="4">Week 7 - 8</button>
+            </div>
+
+            <div class="week-content active" data-week="1">
+                <img class="week-image" src="Week 1-2.png" alt="Week 1-2" style="object-fit: cover;">
+                <div class="week-experience">
+                    <h4>Onboarding & Discovery</h4>
+                    <p>The first two weeks were all about stepping in - 
+                        starting with induction, leader 
+                        sessions, PwC values, networking, and an AI 
+                        prototype challenge, followed by a 2-day bootcamp
+                        that introduced me to deal phases and set the stage 
+                        for project work.</p>
+                </div>
+            </div>
+
+            <div class="week-content" data-week="2">
+                <div class="week-experience">
+                    <h4>First Contributions & Project Ramp-Up</h4>
+                    <p>Excited and slightly nervous, I began contributing to 
+                        two projects across different deal phases - Phoenix & Rioja . With every 
+                        deliverable, my curiosity and the team’s mentorship 
+                        made the learning curve both exciting and rewarding.</p>
+                </div>
+                <img class="week-image" src="week 3-4.png" alt="Week 3-4" style="object-fit: cover;">
+            </div>
+
+            <div class="week-content" data-week="3">
+                <img class="week-image" src="week 5-6.jpg" alt="Week 5-6" style="object-fit: cover;">
+                <div class="week-experience">
+                    <h4>Mid-Review & CSR Impact</h4>
+                    <p>These two weeks brought together growth and giving back, from 
+                        my mid-review with my DL and coach, which helped me reflect 
+                        on feedback and focus areas, to a CSR planting activity 
+                        that gave me a chance to connect with fellow interns 
+                        while contributing to nature.</p>
+                </div>
+            </div>
+
+            <div class="week-content" data-week="4">
+                <div class="week-experience">
+                    <h4>Final Sprint & Presentations</h4>
+                    <p>The final sprint brought everything together - project work, 
+                        re-invest initiatives, AI ideas, and the final review. 
+                        It was a phase of accelerated growth, diverse learning, and 
+                        stepping outside my comfort zone, while reflecting on the value I 
+                        delivered and how much 
+                        I had learned in a once-new domain .</p>
+                </div>
+                <img class="week-image" src="week 7-8.jpg" alt="Week 7-8" style="object-fit: cover;">
+            </div>
+        </section>
+
+        <!-- Project Work Section -->
+        <section id="projects">
+            <h2 class="section-title fade-in">Project Work</h2>
+            <p class="section-subtitle fade-in">Key projects that drove real business impact</p>
+
+            <!-- Project Phoenix -->
+            <div class="project-card fade-in">
+                <div class="project-header">
+                    <div class="project-icon" style="background: var(--gradient-orange);">&#9881;</div>
+                    <div>
+                        <p class="project-label">Project</p>
+                        <h3>Phoenix</h3>
+                    </div>
+                </div>
+                <div class="project-about">
+                    <p>  Supported FIS in planning the IT transition for its Credit Issuing business and TSA exit, with focus on reducing dependency on GPN systems while protecting business continuity </p>
+                </div>
+                <!-- <div class="value-additions" style="grid-template-columns: repeat(6, 1fr);">
+                    <div class="value-card" style="padding: 1rem;">
+                        <div class="value-icon" style="font-size: 1.1rem; font-weight: 700; color: var(--pwc-gray);">48</div>
+                        <h4>TSAs/CAs</h4>
+                    </div>
+                    <div class="value-card" style="padding: 1rem;">
+                        <div class="value-icon" style="font-size: 1.1rem; font-weight: 700; color: var(--pwc-gray);">~415</div>
+                        <h4>Applications</h4>
+                    </div>
+                    <div class="value-card" style="padding: 1rem;">
+                        <div class="value-icon" style="font-size: 1.1rem; font-weight: 700; color: var(--pwc-gray);">23</div>
+                        <h4>Sites</h4>
+                    </div>
+                    <div class="value-card" style="padding: 1rem;">
+                        <div class="value-icon" style="font-size: 1.1rem; font-weight: 700; color: var(--pwc-gray);">10K+</div>
+                        <h4>Mailboxes</h4>
+                    </div>
+                    <div class="value-card" style="padding: 1rem;">
+                        <div class="value-icon" style="font-size: 1.1rem; font-weight: 700; color: var(--pwc-gray);">9K+</div>
+                        <h4>DC Assets</h4>
+                    </div>
+                    <div class="value-card" style="padding: 1rem;">
+                        <div class="value-icon" style="font-size: 1.1rem; font-weight: 700; color: var(--pwc-gray);">4,600</div>
+                        <h4>IT FTEs</h4>
+                    </div>
+                </div> -->
+                <h4 style="margin-bottom: 1rem; color: var(--pwc-dark);">Key Contributions & Impact</h4>
+                <div class="contribution-grid">
+                    <div class="contribution-card" onclick="openLightbox('cisco.png')">
+                        <div class="card-default">
+                            <div class="card-text">Enabled CXO decision-making on Island Browser by framing 2 options across 6 controls and 4 risk areas
+</div>
+                        </div>
+                        <div class="card-hover">
+                            <p>Surfaced TIS access gaps and grouped users by migration priority before laptop movement decisions
+</p>
+                        </div>
+                    </div>
+                    <div class="contribution-card" onclick="openLightbox('3o.png')">
+                        <div class="card-default">
+                            <div class="card-text">Surfaced TIS access gaps and grouped users by migration priority before laptop movement decisions
+</div>
+                        </div>
+                        <div class="card-hover">
+                            <p>Enabled faster leadership decision-making balancing speed-to-revenue with governance, and execution risks</p>
+                        </div>
+                    </div>
+                    <div class="contribution-card" onclick="openLightbox('12.png')">
+                        <div class="card-default">
+                            <div class="card-text">Cleaned and analyzed 35k+ Cisco assets across 87 addresses, while identifying 69% data gaps for stakeholder action
+</div>
+                        </div>
+                        <div class="card-hover">
+                            <p>Clarified ownership, timelines, and next steps to continue asset registration execution</p>
+                        </div>
+                    </div>
+                    <div class="contribution-card" onclick="openLightbox('2o.png')">
+                        <div class="card-default">
+                            <div class="card-text">Framed 2 options for CXO Island Browser decision</div>
+                        </div>
+                        <div class="card-hover">
+                            <p>Helped leadership balance user productivity, security posture, and risk acceptance during the laptop migration transition</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project Rioja -->
+            <div class="project-card fade-in">
+                <div class="project-header">
+                    <div class="project-icon" style="background: var(--gradient-warm);">&#9881;</div>
+                    <div>
+                        <p class="project-label">Project</p>
+                        <h3>Rioja</h3>
+                    </div>
+                </div>
+                <div class="project-about">
+                    <p>  Supported Day 1 IT planning for SiTime, covering user access, engineering/VDE readiness, data migration, infrastructure, and key system dependencies needed for close</p>
+                </div>
+                <!-- <div class="value-additions" style="grid-template-columns: repeat(3, 1fr);">
+                    <div class="value-card" style="padding: 1rem;">
+                        <div class="value-icon" style="font-size: 1.1rem; font-weight: 700; color: var(--pwc-gray);">3</div>
+                        <h4>Conveying sites - Ottawa, Tempe, San Jose </h4>
+                    </div>
+                    <div class="value-card" style="padding: 1rem;">
+                        <div class="value-icon" style="font-size: 1.1rem; font-weight: 700; color: var(--pwc-gray);">3</div>
+                        <h4>IT towers - Business Systems, Infrastructure, Cybersecurity</h4>
+                    </div>
+                    <div class="value-card" style="padding: 1rem;">
+                        <div class="value-icon" style="font-size: 1.1rem; font-weight: 700; color: var(--pwc-gray);">5</div>
+                        <h4>Day-1 Big Rocks</h4>
+                    </div>
+                </div> -->
+                <h4 style="margin-bottom: 1rem; color: var(--pwc-dark);">Key Contributions & Impact</h4>
+                <div class="contribution-grid">
+                    <div class="contribution-card" onclick="openLightbox('1.74.png')">
+                        <div class="card-default">
+                            <div class="card-text">Consolidated $1.74M+ VDE cost impact for funding decisions</div>
+                        </div>
+                        <div class="card-hover">
+                            <p>Enabled clearer funding decisions and Day 1 infrastructure planning</p>
+                        </div>
+                    </div>
+                    <div class="contribution-card" onclick="openLightbox('300+.png')">
+                        <div class="card-default">
+                            <div class="card-text">Structured 300+ activities across 8+ IT workstreams</div>
+                        </div>
+                        <div class="card-hover">
+                            <p>Improved execution visibility, ownership, and milestone tracking</p>
+                        </div>
+                    </div>
+                    <div class="contribution-card" onclick="openLightbox('18.png')">
+                        <div class="card-default">
+                            <div class="card-text">Mapped 18 VDE assets for ownership and Day 1 readiness</div>
+                        </div>
+                        <div class="card-hover">
+                            <p>Clarified Day 1 ownership, procurement needs, and transition actions</p>
+                        </div>
+                    </div>
+                    <div class="contribution-card" onclick="openLightbox('27.png')">
+                        <div class="card-default">
+                            <div class="card-text">Scoped 27 migration items for Day 1 and post-close planning</div>
+                        </div>
+                        <div class="card-hover">
+                            <p>Separated Day 1 vs. post-close priorities for cleaner migration planning</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Re-invest Section -->
+        <section id="reinvest">
+            <h2 class="section-title fade-in">Re-Invest - AC Quality</h2>
+            <!-- <p class="section-subtitle fade-in"></p> -->
+
+            <div class="reinvest-about fade-in">
+                <p>Identified gaps in the existing engagement status comparison process between the Utilisation Tracker and DEH, and proposed a comprehensive Power Query dashboard to automate validation checks. Additionally, created a guidebook to support product leads in accurately completing Global ISMS information in DEH.</p>
+            </div>
+
+            <div class="impact-grid fade-in">
+                <div class="impact-card">
+                    <div class="impact-icon">&#9889;</div>
+                    <p>Reduced manual effort & improved efficiency</p>
+                </div>
+                <div class="impact-card">
+                    <div class="impact-icon">&#127919;</div>
+                    <p>Improved data accuracy & consistency</p>
+                </div>
+                <div class="impact-card">
+                    <div class="impact-icon">&#128214;</div>
+                    <p>Reusable guidebook for future use</p>
+                </div>
+            </div>
+
+            <div style="text-align: center;" class="fade-in">
+                <a href="https://pwc-my.sharepoint.com/:x:/r/personal/garima_u_gupta_pwc_com/Documents/Engagement%20Tracker%20-%20Power%20Query%20Dashboard.xlsx?d=web3a016b49fb4392977b1d00f5f93cc8&csf=1&web=1&e=ervHff" target="_blank" class="cta-link">Try the tracker &#8594;</a>
+            </div>
+        </section>
+
+        <!-- AI Impact Section -->
+        <section id="ai-impact">
+            <h2 class="section-title fade-in">AI Powered - Knowledge Hub</h2>
+            <p class="section-subtitle fade-in">Leveraging AI to amplify team productivity</p>
+
+            <div class="ai-about fade-in">
+                <p>Conceptualized a central AI-powered hub that auto-redacts confidential information from any uploaded deliverable, tags it with the methodology behind it and lets anyone in the firm find the right template through plain-English search
+</p>
+            </div>
+
+            <div class="ai-impact-grid fade-in" style="grid-template-columns: repeat(3, 1fr);">
+                <div class="ai-impact-card">
+                    <div class="ai-number">&#9889;</div>
+                    <p>Improving productivity</p>
+                </div>
+                <div class="ai-impact-card">
+                    <div class="ai-number">&#128218;</div>
+                    <p>Knowledge retention</p>
+                </div>
+                <div class="ai-impact-card">
+                    <div class="ai-number">&#128274;</div>
+                    <p>Enables compliant knowledge sharing</p>
+                </div>
+            </div>
+
+            <div style="text-align: center;" class="fade-in">
+                <a href="#" class="try-me-btn">&#10024; Try Me</a>
+            </div>
+        </section>
+
+        <!-- Feedback Section -->
+        <section id="feedback">
+            <h2 class="section-title fade-in">Feedback from Team</h2>
+            <p class="section-subtitle fade-in">Words from mentors and colleagues</p>
+
+            <div class="feedback-grid fade-in">
+                <div class="feedback-card">
+                    <div class="feedback-block">
+                        Garima is a dependable team member who brings consistency and diligence to her work. She manages tasks and coordination responsibilities reliably and engages constructively with direction. With continued exposure to more complex problem-solving and senior stakeholder engagement, she has good scope to grow into core consulting roles.
+                    </div>
+                    <p class="author">- Ayona Chakraborty (Project Manager)</p>
+                </div>
+                <div class="feedback-card">
+                    <div class="feedback-block">
+                        Garima can continue to broaden her industry and sector knowledge while bringing more AI into her delivery. She can further sharpen her slide-writing, storytelling, and financial modeling skills for a successful consulting and M&A career.
+                    </div>
+                    <p class="author">- Arihant Jain (AC Quality Lead)</p>
+                </div>
+                <div class="feedback-card">
+                    <div class="feedback-block">
+                        Garima has shown strong composure and professionalism while working across multiple deliverables and shifting priorities across both the engagements. Her work reflected good structure, careful thinking, and a genuine willingness to learn. She also integrated feedback well and steadily built confidence so far. Expect her to continue to learn, develop, grow and deliver in the remaining course of the internship as well!
+                    </div>
+                    <p class="author">- Prakhar Jain (Senior Associate)</p>
+                </div>
+                <div class="feedback-card">
+                    <div class="feedback-block">
+                        Garima was a valuable contributor across both projects. She was dependable, responsive, and willing to take on a broad range of tasks across planning, tracking, and stakeholder materials. She showed strong attention to detail and helped improve visibility into key workstreams, owners, timelines, risks, and open items. She also demonstrated adaptability by quickly ramping up across different project contexts and producing clear, organized outputs for the team.
+                    </div>
+                    <p class="author">- Thanmayee Dondapati (Associate)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Learnings & Experience Section -->
+        <section id="learnings">
+            <h2 class="section-title fade-in">Key Learnings & Experience</h2>
+            <p class="section-subtitle fade-in">What I take away from this journey</p>
+
+            <div class="learnings-grid fade-in">
+                <div class="learning-card">
+                    <div class="learning-default">
+                        <div class="learning-header">
+                            <div class="learning-icon">&#128203;</div>
+                            <div class="learning-number">01</div>
+                        </div>
+                        <div class="learning-title">M&A execution starts before close</div>
+                    </div>
+                    <div class="learning-detail">Two projects, one lesson: surface owners, blockers, and dependencies early</div>
+                </div>
+                <div class="learning-card">
+                    <div class="learning-default">
+                        <div class="learning-header">
+                            <div class="learning-icon">&#128270;</div>
+                            <div class="learning-number">02</div>
+                        </div>
+                        <div class="learning-title">Business continuity is the core lens</div>
+                    </div>
+                    <div class="learning-detail">Across both projects, business continuity anchored every step</div>
+                </div>
+                <div class="learning-card">
+                    <div class="learning-default">
+                        <div class="learning-header">
+                            <div class="learning-icon">&#128172;</div>
+                            <div class="learning-number">03</div>
+                        </div>
+                        <div class="learning-title">Dependecy-First thinking</div>
+                    </div>
+                    <div class="learning-detail">SC engagement showed one missed dependency can slow execution
+</div>
+                </div>
+                <div class="learning-card">
+                    <div class="learning-default">
+                        <div class="learning-header">
+                            <div class="learning-icon">&#9889;</div>
+                            <div class="learning-number">04</div>
+                        </div>
+                        <div class="learning-title">AI as structural leverage</div>
+                    </div>
+                    <div class="learning-detail">Trackers, dashboards, structure work - all came together faster with AI</div>
+                </div>
+            </div>
+
+            <div class="experience-block fade-in">
+                <h3>Overall Experience</h3>
+                <p>
+                    My experience at PwC was nothing short of a learning journey in a
+                    field that was completely new to me. I started the summer excited
+                    to explore M&A deals, and it became even more exciting when I got to
+                    contribute to two live projects. Along the way, I understood how deal
+                    processes work, gained exposure to key transition phases, and learned
+                    from people across teams. Someone told me early on that <b><i>internships
+                    are not just about the organization evaluating you,
+                    but also about you evaluating the organization</i></b> and I can safely
+                    say my summer was full of learning, networking, and meaningful work.
+                </p>
+            </div>
+        </section>
+
+        <!-- Lightbox Overlay -->
+        <div class="lightbox-overlay" id="lightbox" onclick="closeLightbox()">
+            <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+            <img id="lightbox-img" src="" alt="Screenshot">
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>Made with dedication &bull; <span>PwC</span> Summer Internship 2026</p>
+        </footer>
+
+        <script>
+            const goTopBtn = document.getElementById('goTop');
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    goTopBtn.classList.add('visible');
+                } else {
+                    goTopBtn.classList.remove('visible');
+                }
+            });
+
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('nav ul li a');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 100;
+                    if (window.scrollY >= sectionTop) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#' + current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+
+            const weekTabs = document.querySelectorAll('.week-tab');
+            const weekContents = document.querySelectorAll('.week-content');
+
+            weekTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    weekTabs.forEach(t => t.classList.remove('active'));
+                    weekContents.forEach(c => c.classList.remove('active'));
+
+                    tab.classList.add('active');
+                    const week = tab.getAttribute('data-week');
+                    document.querySelector(`.week-content[data-week="${week}"]`).classList.add('active');
+                });
+            });
+
+            const fadeElements = document.querySelectorAll('.fade-in');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            fadeElements.forEach(el => observer.observe(el));
+
+            function openLightbox(imgSrc) {
+                const lightbox = document.getElementById('lightbox');
+                const lightboxImg = document.getElementById('lightbox-img');
+                lightboxImg.src = imgSrc;
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeLightbox() {
+                const lightbox = document.getElementById('lightbox');
+                lightbox.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeLightbox();
+            });
+        </script>
+
+    </body>
+    </html>

@@ -1,0 +1,1964 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Internship Dashboard</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+        <style>
+            :root {
+                --pwc-orange: #D04A02;
+                --pwc-orange-light: #E85D0F;
+                --pwc-yellow: #FFB600;
+                --pwc-dark: #2D2D2D;
+                --pwc-darker: #1A1A1A;
+                --pwc-rose: #D93954;
+                --pwc-gray: #7D7D7D;
+                --pwc-light-gray: #E8E2DC;
+                --pwc-light: #F9F6F3;
+                --pwc-warm-white: #FFFAF5;
+                --card-bg: #ffffff;
+                --text: #2D2D2D;
+                --text-light: #5A5A5A;
+                --gradient-dark: linear-gradient(135deg, #2D2D2D 0%, #1A1A1A 100%);
+                --gradient-orange: linear-gradient(135deg, #D04A02 0%, #E85D0F 100%);
+                --gradient-warm: linear-gradient(135deg, #D04A02 0%, #FFB600 100%);
+                --gradient-rose: linear-gradient(135deg, #D93954 0%, #E85D0F 100%);
+                --shadow: 0 10px 40px rgba(45, 45, 45, 0.08);
+                --shadow-hover: 0 20px 60px rgba(45, 45, 45, 0.15);
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            html {
+                scroll-behavior: smooth;
+            }
+
+            body {
+                font-family: 'Inter', sans-serif;
+                background: var(--pwc-light);
+                color: var(--text);
+                line-height: 1.6;
+            }
+
+            /* Navigation */
+            nav {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 1000;
+                background: rgba(45, 45, 45, 0.97);
+                backdrop-filter: blur(20px);
+                padding: 0 2rem;
+                box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+                transition: all 0.3s ease;
+            }
+
+            nav .nav-container {
+                max-width: 1200px;
+                margin: 0 auto;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                height: 70px;
+            }
+
+            nav .logo {
+                font-family: 'Playfair Display', serif;
+                font-size: 1.4rem;
+                color: #fff;
+                font-weight: 700;
+                letter-spacing: 1px;
+            }
+
+            nav .logo span {
+                color: var(--pwc-orange);
+            }
+
+            nav ul {
+                list-style: none;
+                display: flex;
+                gap: 0.5rem;
+            }
+
+            nav ul li a {
+                color: rgba(255,255,255,0.7);
+                text-decoration: none;
+                font-size: 0.85rem;
+                font-weight: 500;
+                padding: 0.5rem 1rem;
+                border-radius: 25px;
+                transition: all 0.3s ease;
+            }
+
+            nav ul li a:hover {
+                color: #fff;
+                background: rgba(208, 74, 2, 0.25);
+            }
+
+            nav ul li a.active {
+                color: #fff;
+                background: var(--pwc-orange);
+            }
+
+            /* Go to Top Button */
+            .go-top {
+                position: fixed;
+                bottom: 2rem;
+                right: 2rem;
+                width: 50px;
+                height: 50px;
+                background: var(--gradient-orange);
+                border: none;
+                border-radius: 50%;
+                color: #fff;
+                font-size: 1.2rem;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 5px 20px rgba(208, 74, 2, 0.4);
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(20px);
+                transition: all 0.3s ease;
+                z-index: 999;
+            }
+
+            .go-top.visible {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+
+            .go-top:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 30px rgba(208, 74, 2, 0.6);
+            }
+
+            /* Sections */
+            section {
+                padding: 6rem 2rem;
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+
+            .section-title {
+                font-family: 'Playfair Display', serif;
+                font-size: 2.5rem;
+                margin-bottom: 0.5rem;
+                color: var(--pwc-dark);
+            }
+
+            .section-subtitle {
+                color: var(--text-light);
+                font-size: 1rem;
+                margin-bottom: 3rem;
+                font-weight: 400;
+            }
+
+            /* Hero / Profile Section */
+            #profile {
+                padding-top: 10rem;
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                position: relative;
+                overflow: hidden;
+            }
+
+            #profile::before {
+                content: '';
+                position: absolute;
+                bottom: -80px;
+                left: -80px;
+                width: 220px;
+                height: 220px;
+                background: rgba(208, 74, 2, 0.06);
+                border-radius: 50%;
+                pointer-events: none;
+            }
+
+            #profile::after {
+                content: '';
+                position: absolute;
+                top: -50px;
+                right: -50px;
+                width: 160px;
+                height: 160px;
+                background: rgba(208, 74, 2, 0.07);
+                border-radius: 50%;
+                pointer-events: none;
+            }
+
+            .profile-orb {
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(208, 74, 2, 0.06);
+                pointer-events: none;
+            }
+
+            .profile-orb.orb-1 {
+                width: 200px;
+                height: 200px;
+                bottom: -80px;
+                left: -80px;
+                background: rgba(208, 74, 2, 0.065);
+            }
+
+            .profile-orb.orb-2 {
+                width: 140px;
+                height: 140px;
+                bottom: -70px;
+                right: -70px;
+                background: rgba(208, 74, 2, 0.065);
+            }
+
+            .profile-orb.orb-3 {
+                width: 140px;
+                height: 140px;
+                top: 80px;
+                left: -50px;
+                background: rgba(208, 74, 2, 0.05);
+            }
+
+            .profile-orb.orb-4 {
+                display: none;
+            }
+
+            .profile-orb.orb-5 {
+                width: 120px;
+                height: 120px;
+                top: 70px;
+                right: -40px;
+                background: rgba(208, 74, 2, 0.065);
+            }
+
+            .profile-container {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                text-align: left;
+                width: 100%;
+                position: relative;
+            }
+
+            .profile-info {
+                animation: fadeIn 1s ease;
+                position: relative;
+                z-index: 1;
+                flex: 1;
+            }
+
+            .profile-photo {
+                width: 220px;
+                height: 220px;
+                border-radius: 50%;
+                background: var(--gradient-orange);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+                margin-left: 3rem;
+                position: relative;
+                z-index: 1;
+                box-shadow: 0 15px 40px rgba(208, 74, 2, 0.3);
+                overflow: hidden;
+                animation: fadeIn 1s ease 0.3s both;
+            }
+
+            .profile-photo img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: center 20%;
+                border-radius: 50%;
+                transform: scale(1.4);
+                transform-origin: center 30%;
+            }
+
+            .profile-info .greeting {
+                font-size: 1rem;
+                color: var(--pwc-orange);
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 3px;
+                margin-bottom: 1rem;
+            }
+
+            .profile-info h1 {
+                font-family: 'Playfair Display', serif;
+                font-size: 3.5rem;
+                color: var(--pwc-dark);
+                margin-bottom: 1rem;
+                line-height: 1.2;
+            }
+
+            .profile-info .tagline {
+                font-size: 1.2rem;
+                color: var(--text-light);
+                margin-bottom: 1.5rem;
+            }
+
+
+            .profile-divider {
+                width: 60px;
+                height: 4px;
+                background: var(--gradient-orange);
+                border-radius: 2px;
+                margin: 1.5rem 0;
+            }
+
+            /* Internship Journey */
+            #journey {
+                background: #fff;
+                border-radius: 12px;
+                margin: 2rem auto;
+                box-shadow: var(--shadow);
+                max-width: 1200px;
+            }
+
+            .journey-overview {
+                background: linear-gradient(135deg, #FAF7F4 0%, #F3EDE8 100%);
+                border: 1px solid rgba(208, 74, 2, 0.08);
+                border-radius: 14px;
+                padding: 2.25rem 3rem;
+                margin-bottom: 3rem;
+            }
+
+            .journey-highlights-only {
+                display: flex;
+                align-items: center;
+                justify-content: space-evenly;
+            }
+
+            .journey-highlight-card {
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                padding: 0.75rem 1.5rem;
+                position: relative;
+                flex: 1 1 0;
+                justify-content: center;
+            }
+
+            .journey-highlight-card:first-child {
+                padding-left: 0;
+            }
+
+            .journey-highlight-card:last-child {
+                padding-right: 0;
+            }
+
+            .journey-highlight-card::after {
+                content: '';
+                position: absolute;
+                right: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                height: 28px;
+                width: 1px;
+                background: rgba(45, 45, 45, 0.12);
+            }
+
+            .journey-highlight-card:last-child::after {
+                display: none;
+            }
+
+            .journey-highlight-card .highlight-number {
+                font-size: 1.6rem;
+                font-weight: 800;
+                color: var(--pwc-orange);
+                line-height: 1;
+            }
+
+            .journey-highlight-card .highlight-label {
+                font-size: 0.72rem;
+                color: var(--pwc-dark);
+                text-transform: uppercase;
+                letter-spacing: 1.8px;
+                font-weight: 600;
+            }
+
+            .week-tabs {
+                display: flex;
+                gap: 0.5rem;
+                margin-bottom: 2rem;
+                flex-wrap: wrap;
+            }
+
+            .week-tab {
+                padding: 0.75rem 1.5rem;
+                border: 2px solid var(--pwc-light-gray);
+                border-radius: 30px;
+                background: transparent;
+                cursor: pointer;
+                font-size: 0.9rem;
+                font-weight: 500;
+                color: var(--text);
+                transition: all 0.3s ease;
+                font-family: 'Inter', sans-serif;
+            }
+
+            .week-tab:hover,
+            .week-tab.active {
+                background: var(--pwc-orange);
+                color: #fff;
+                border-color: var(--pwc-orange);
+            }
+
+            .week-content {
+                display: none;
+                animation: fadeIn 0.5s ease;
+            }
+
+            .week-content.active {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+                align-items: start;
+            }
+
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+
+            .week-image {
+                width: 100%;
+                height: 280px;
+                border-radius: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #fff;
+                font-size: 1rem;
+                font-weight: 500;
+            }
+
+            .week-experience {
+                padding: 1rem 0;
+            }
+
+            .week-experience h4 {
+                font-size: 1.2rem;
+                margin-bottom: 1rem;
+                color: var(--pwc-dark);
+            }
+
+            .week-experience p {
+                color: var(--text-light);
+                line-height: 1.8;
+            }
+
+            /* Project Accordion */
+            .project-accordion {
+                background: #fff;
+                border-radius: 12px;
+                margin-bottom: 1rem;
+                box-shadow: var(--shadow);
+                border: 1px solid rgba(0,0,0,0.05);
+                overflow: hidden;
+            }
+
+            .project-accordion-header {
+                display: flex;
+                align-items: center;
+                padding: 1.5rem 2rem;
+                cursor: pointer;
+                transition: background 0.2s ease;
+                user-select: none;
+            }
+
+            .project-accordion-header:hover {
+                background: rgba(0,0,0,0.015);
+            }
+
+            .project-accordion-header .project-icon {
+                width: 44px;
+                height: 44px;
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 0.9rem;
+                font-weight: 700;
+                color: #fff;
+                background: var(--pwc-orange);
+                flex-shrink: 0;
+                margin-right: 1rem;
+            }
+
+            .project-accordion-header .project-title-group {
+                flex: 1;
+            }
+
+            .project-accordion-header .project-label {
+                font-size: 0.65rem;
+                color: var(--text-light);
+                text-transform: uppercase;
+                letter-spacing: 2px;
+                font-weight: 500;
+            }
+
+            .project-accordion-header h3 {
+                font-size: 1.3rem;
+                color: var(--pwc-dark);
+                font-weight: 600;
+            }
+
+            .project-accordion-header .project-desc-short {
+                font-size: 0.82rem;
+                color: var(--text-light);
+                margin-top: 0.25rem;
+                line-height: 1.5;
+            }
+
+            .accordion-toggle {
+                width: 36px;
+                height: 36px;
+                border-radius: 50%;
+                border: 1px solid var(--pwc-light-gray);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+                margin-left: 1rem;
+                transition: all 0.3s ease;
+                background: transparent;
+            }
+
+            .accordion-toggle svg {
+                width: 16px;
+                height: 16px;
+                stroke: var(--pwc-dark);
+                stroke-width: 2;
+                fill: none;
+                transition: transform 0.3s ease;
+            }
+
+            .project-accordion.expanded .accordion-toggle {
+                background: var(--pwc-orange);
+                border-color: var(--pwc-orange);
+            }
+
+            .project-accordion.expanded .accordion-toggle svg {
+                stroke: #fff;
+                transform: rotate(180deg);
+            }
+
+            .project-accordion-body {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.4s ease;
+                padding: 0 2rem;
+            }
+
+            .project-accordion.expanded .project-accordion-body {
+                max-height: 1200px;
+                padding: 0 2rem 2rem;
+            }
+
+            .project-about {
+                background: var(--pwc-light);
+                padding: 0.75rem 1.2rem;
+                border-radius: 10px;
+                margin-bottom: 1.75rem;
+                color: var(--text-light);
+                font-size: 0.85rem;
+                line-height: 1.6;
+                border-left: 4px solid var(--pwc-orange);
+            }
+
+            /* Carousel */
+            .section-label {
+                font-size: 0.7rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 1.5px;
+                color: var(--text-light);
+                margin-bottom: 1rem;
+            }
+
+            .carousel-container {
+                position: relative;
+                margin-bottom: 2rem;
+            }
+
+            .carousel-wrapper {
+                overflow: hidden;
+                border-radius: 12px;
+                margin: 0 4.5rem;
+            }
+
+            .carousel-track {
+                display: flex;
+                gap: 1rem;
+                transition: transform 0.4s ease;
+            }
+
+            .carousel-card {
+                min-width: calc(50% - 0.5rem);
+                max-width: calc(50% - 0.5rem);
+                background: #F2F2F2;
+                border-radius: 12px;
+                padding: 1.75rem 1.25rem;
+                text-align: center;
+                border: 1px solid rgba(0,0,0,0.05);
+                border-top: 3px solid var(--pwc-orange);
+                cursor: pointer;
+                transition: all 0.2s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 160px;
+            }
+
+            .carousel-card:hover {
+                cursor: pointer;
+            }
+
+            .carousel-card .card-text {
+                font-size: 0.85rem;
+                color: var(--pwc-dark);
+                font-weight: 600;
+                line-height: 1.5;
+            }
+
+            .carousel-btn {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 34px;
+                height: 34px;
+                border-radius: 50%;
+                background: #fff;
+                border: 1px solid var(--pwc-light-gray);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                z-index: 5;
+                transition: all 0.2s ease;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            }
+
+            .carousel-btn:hover {
+                background: var(--pwc-orange);
+                border-color: var(--pwc-orange);
+            }
+
+            .carousel-btn:hover svg {
+                stroke: #fff;
+            }
+
+            .carousel-btn svg {
+                width: 14px;
+                height: 14px;
+                stroke: var(--pwc-dark);
+                stroke-width: 2;
+                fill: none;
+            }
+
+            .carousel-btn.prev {
+                left: 0;
+            }
+
+            .carousel-btn.next {
+                right: 0;
+            }
+
+            .carousel-dots {
+                display: flex;
+                justify-content: center;
+                gap: 0.4rem;
+                margin-top: 1.25rem;
+            }
+
+            .carousel-dot {
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                background: var(--pwc-light-gray);
+                border: none;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                padding: 0;
+            }
+
+            .carousel-dot.active {
+                background: var(--pwc-orange);
+                transform: scale(1.3);
+            }
+
+            /* Project Impact Grid */
+            .project-impact-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1rem;
+            }
+
+            .project-impact-grid {
+                margin-top: 1.5rem;
+            }
+
+            .project-impact-tile {
+                background: #FDFBF9;
+                border-radius: 12px;
+                padding: 2rem 1.25rem 1.5rem;
+                text-align: center;
+                border: 1px solid rgba(0,0,0,0.05);
+                border-left: 4px solid var(--pwc-orange);
+                transition: all 0.3s ease;
+                position: relative;
+            }
+
+            .project-impact-tile .tile-bg {
+                position: absolute;
+                inset: 0;
+                border-radius: 12px;
+                overflow: hidden;
+            }
+
+            .project-impact-tile .tile-bg::before {
+                content: '';
+                position: absolute;
+                top: -30px;
+                right: -30px;
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                background: rgba(208, 74, 2, 0.06);
+                transition: all 0.4s ease;
+            }
+
+            .project-impact-tile:hover .tile-bg::before {
+                transform: scale(2.5);
+            }
+
+            .project-impact-tile::before {
+                content: attr(data-number);
+                position: absolute;
+                top: -18px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 36px;
+                height: 36px;
+                border-radius: 50%;
+                background: var(--pwc-orange);
+                color: #fff;
+                font-size: 0.85rem;
+                font-weight: 700;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+                z-index: 2;
+            }
+
+            .project-impact-tile:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            }
+
+            .project-impact-tile p {
+                font-size: 0.82rem;
+                color: var(--text-light);
+                line-height: 1.6;
+                font-weight: 500;
+                position: relative;
+            }
+
+            /* Fullscreen Lightbox */
+            .lightbox-overlay {
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.9);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 10000;
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.3s ease, visibility 0.3s ease;
+            }
+
+            .lightbox-overlay.active {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .lightbox-overlay img {
+                max-width: 90%;
+                max-height: 90vh;
+                border-radius: 12px;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+                transform: scale(0.9);
+                transition: transform 0.3s ease;
+            }
+
+            .lightbox-overlay.active img {
+                transform: scale(1);
+            }
+
+            .lightbox-close {
+                position: absolute;
+                top: 2rem;
+                right: 2rem;
+                width: 50px;
+                height: 50px;
+                background: rgba(255, 255, 255, 0.15);
+                border: 2px solid rgba(255, 255, 255, 0.4);
+                border-radius: 50%;
+                color: #fff;
+                font-size: 1.5rem;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.3s ease;
+            }
+
+            .lightbox-close:hover {
+                background: var(--pwc-orange);
+                border-color: var(--pwc-orange);
+                transform: scale(1.1);
+            }
+
+
+            @media (max-width: 768px) {
+                .carousel-card {
+                    min-width: calc(50% - 0.5rem);
+                }
+
+                .project-impact-grid {
+                    grid-template-columns: 1fr;
+                }
+
+                .project-accordion-header {
+                    padding: 1.25rem 1.25rem;
+                }
+
+                .project-accordion.expanded .project-accordion-body {
+                    padding: 0 1.25rem 1.5rem;
+                }
+            }
+
+            .learnings-section {
+                display: flex;
+                gap: 2rem;
+                flex-wrap: wrap;
+            }
+
+            .learning-bubble {
+                flex: 1;
+                min-width: 200px;
+                background: var(--gradient-dark);
+                color: #fff;
+                padding: 2rem;
+                border-radius: 20px;
+                text-align: center;
+                font-weight: 500;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .learning-bubble::after {
+                content: '';
+                position: absolute;
+                bottom: -20px;
+                right: -20px;
+                width: 80px;
+                height: 80px;
+                background: rgba(208, 74, 2, 0.4);
+                border-radius: 50%;
+            }
+
+            /* Re-invest Section */
+            #reinvest {
+                background: #fff;
+                border-radius: 12px;
+                margin: 2rem auto;
+                box-shadow: var(--shadow);
+                max-width: 1200px;
+            }
+
+            .reinvest-about {
+                background: var(--pwc-light);
+                padding: 0.75rem 1.2rem;
+                border-radius: 10px;
+                margin-bottom: 1.5rem;
+                border-left: 4px solid var(--pwc-orange);
+                color: var(--text-light);
+                font-size: 0.85rem;
+                line-height: 1.6;
+            }
+
+            .impact-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1.5rem;
+                margin-bottom: 2.5rem;
+            }
+
+            .impact-card {
+                background: #F2F2F2;
+                border-radius: 12px;
+                padding: 2rem 1.5rem;
+                text-align: center;
+                transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;
+                color: var(--pwc-dark);
+                border: 1px solid rgba(0,0,0,0.05);
+            }
+
+            .impact-card::before {
+                content: '';
+                position: absolute;
+                top: -30px;
+                right: -30px;
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                transition: all 0.4s ease;
+            }
+
+            .impact-card:nth-child(1)::before {
+                background: rgba(208, 74, 2, 0.06);
+            }
+
+            .impact-card:nth-child(2)::before {
+                background: rgba(208, 74, 2, 0.06);
+            }
+
+            .impact-card:nth-child(3)::before {
+                background: rgba(208, 74, 2, 0.06);
+            }
+
+            .impact-card:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            }
+
+            .impact-card:hover::before {
+                transform: scale(2.5);
+            }
+
+            .impact-card .impact-icon {
+                font-size: 1.5rem;
+                margin-bottom: 0.75rem;
+                position: relative;
+                color: var(--pwc-orange);
+            }
+
+            .impact-card .impact-number {
+                font-size: 2.5rem;
+                font-weight: 800;
+                color: var(--pwc-yellow);
+                margin-bottom: 0.5rem;
+                position: relative;
+            }
+
+            .impact-card p {
+                font-size: 0.88rem;
+                font-weight: 500;
+                color: var(--text-light);
+                position: relative;
+            }
+
+            .cta-link {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                background: var(--gradient-orange);
+                color: #fff;
+                padding: 1rem 2rem;
+                border-radius: 30px;
+                text-decoration: none;
+                font-weight: 600;
+                transition: all 0.3s ease;
+                box-shadow: 0 5px 20px rgba(208, 74, 2, 0.3);
+            }
+
+            .cta-link:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 10px 30px rgba(208, 74, 2, 0.5);
+            }
+
+            /* AI Impact */
+            #ai-impact {
+                background: #fff;
+                border-radius: 12px;
+                margin: 2rem auto;
+                max-width: 1200px;
+                color: var(--text);
+                position: relative;
+                overflow: hidden;
+                box-shadow: var(--shadow);
+            }
+
+            #ai-impact .section-title {
+                color: var(--pwc-dark);
+            }
+
+            #ai-impact .section-subtitle {
+                color: var(--text-light);
+            }
+
+            .ai-about {
+                background: var(--pwc-light);
+                padding: 0.75rem 1.2rem;
+                border-radius: 10px;
+                margin-bottom: 1.5rem;
+                color: var(--text-light);
+                font-size: 0.85rem;
+                line-height: 1.6;
+                border-left: 4px solid var(--pwc-orange);
+            }
+
+            .ai-impact-grid {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1.5rem;
+                margin-bottom: 2.5rem;
+            }
+
+            .ai-impact-card {
+                background: #F2F2F2;
+                border: 1px solid rgba(0,0,0,0.05);
+                border-radius: 12px;
+                padding: 2rem 1.5rem;
+                text-align: center;
+                transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .ai-impact-card::before {
+                content: '';
+                position: absolute;
+                top: -30px;
+                right: -30px;
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                background: rgba(208, 74, 2, 0.06);
+                transition: all 0.4s ease;
+            }
+
+            .ai-impact-card:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            }
+
+            .ai-impact-card:hover::before {
+                transform: scale(2.5);
+            }
+
+            .ai-impact-card .ai-number {
+                font-size: 1.5rem;
+                margin-bottom: 0.5rem;
+                color: var(--pwc-orange);
+                position: relative;
+            }
+
+            .ai-impact-card p {
+                font-size: 0.88rem;
+                color: var(--text-light);
+                font-weight: 500;
+                position: relative;
+            }
+
+            .try-me-btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                background: var(--gradient-orange);
+                color: #fff;
+                padding: 1rem 2rem;
+                border-radius: 30px;
+                text-decoration: none;
+                font-weight: 600;
+                transition: all 0.3s ease;
+                box-shadow: 0 5px 20px rgba(208, 74, 2, 0.3);
+            }
+
+            .try-me-btn:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 10px 30px rgba(208, 74, 2, 0.5);
+            }
+
+            /* Feedback */
+            .feedback-carousel-container {
+                position: relative;
+                margin-bottom: 1.5rem;
+            }
+
+            .feedback-carousel-wrapper {
+                overflow: hidden;
+                margin: 0 4.5rem;
+                border-radius: 12px;
+            }
+
+            .feedback-carousel-track {
+                display: flex;
+                transition: transform 0.4s ease;
+            }
+
+            .feedback-card {
+                min-width: 100%;
+                max-width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 0 1rem;
+                box-sizing: border-box;
+            }
+
+            .feedback-card .feedback-block {
+                max-width: 650px;
+                border: 3px solid transparent;
+                border-radius: 10px;
+                padding: 1rem 1.2rem;
+                font-size: 0.82rem;
+                line-height: 1.55;
+                color: #333;
+                background: #fff;
+                background-clip: padding-box;
+                position: relative;
+            }
+
+            .feedback-card .feedback-block::before {
+                content: '';
+                position: absolute;
+                inset: -3px;
+                border-radius: 12px;
+                background: linear-gradient(135deg, #D04A02, #FFB600, #E85D0F, #D93954);
+                z-index: -1;
+            }
+
+            .feedback-card:nth-child(2) .feedback-block::before {
+                background: linear-gradient(135deg, #FFB600, #D04A02, #D93954, #E85D0F);
+            }
+
+            .feedback-card:nth-child(3) .feedback-block::before {
+                background: linear-gradient(135deg, #E85D0F, #D93954, #FFB600, #D04A02);
+            }
+
+            .feedback-card:nth-child(4) .feedback-block::before {
+                background: linear-gradient(135deg, #D93954, #E85D0F, #D04A02, #FFB600);
+            }
+
+            .feedback-card .author {
+                text-align: center;
+                margin-top: 0.75rem;
+                font-weight: 600;
+                font-style: italic;
+                color: var(--pwc-dark);
+                font-size: 0.85rem;
+            }
+
+            /* Key Learnings & Experience */
+            #learnings {
+                background: #fff;
+                border-radius: 12px;
+                margin: 2rem auto;
+                box-shadow: var(--shadow);
+                max-width: 1200px;
+            }
+
+            .learnings-grid {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1.5rem;
+                margin-bottom: 2.5rem;
+            }
+
+            .learning-card {
+                background: var(--pwc-light);
+                border-radius: 12px;
+                border: 1px solid rgba(0,0,0,0.05);
+                border-left: 4px solid var(--pwc-orange);
+                padding: 1.5rem 1.2rem;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .learning-card::after {
+                content: '';
+                position: absolute;
+                bottom: -20px;
+                left: -20px;
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                background: rgba(208, 74, 2, 0.06);
+            }
+
+            .learning-card .learning-header {
+                display: flex;
+                align-items: flex-start;
+                justify-content: space-between;
+                margin-bottom: 0.5rem;
+            }
+
+            .learning-card .learning-number {
+                font-size: 2.2rem;
+                font-weight: 800;
+                color: var(--pwc-orange);
+                opacity: 0.25;
+                line-height: 1;
+            }
+
+            .learning-card .learning-title {
+                font-size: 0.9rem;
+                font-weight: 700;
+                color: var(--pwc-dark);
+                line-height: 1.4;
+                flex: 1;
+                padding-right: 0.5rem;
+            }
+
+            .learning-card .learning-detail {
+                font-size: 0.72rem;
+                color: var(--text-light);
+                line-height: 1.5;
+            }
+
+            .experience-block {
+                border-radius: 16px;
+                padding: 2.5rem;
+                color: var(--pwc-dark);
+                position: relative;
+                background: linear-gradient(#FEFCFA, #FEFCFA) padding-box,
+                            linear-gradient(135deg, rgba(208,74,2,0.5), rgba(255,182,0,0.5), rgba(232,93,15,0.5), rgba(217,57,84,0.5)) border-box;
+                border: 2px solid transparent;
+                box-shadow: 0 10px 35px rgba(208, 74, 2, 0.1);
+            }
+
+            .experience-block h3 {
+                font-size: 1.3rem;
+                margin-bottom: 1rem;
+                position: relative;
+                color: var(--pwc-darker);
+                font-weight: 700;
+            }
+
+            .experience-block p {
+                font-size: 0.95rem;
+                line-height: 1.8;
+                color: var(--text-light);
+                position: relative;
+            }
+
+            /* Footer */
+            footer {
+                text-align: center;
+                padding: 3rem 2rem;
+                color: var(--text-light);
+                font-size: 0.9rem;
+            }
+
+            footer span {
+                color: var(--pwc-orange);
+                font-weight: 600;
+            }
+
+            /* Animations */
+            @keyframes fadeInLeft {
+                from { opacity: 0; transform: translateX(-30px); }
+                to { opacity: 1; transform: translateX(0); }
+            }
+
+            @keyframes fadeInRight {
+                from { opacity: 0; transform: translateX(30px); }
+                to { opacity: 1; transform: translateX(0); }
+            }
+
+            .fade-in {
+                opacity: 0;
+                transform: translateY(30px);
+                transition: all 0.8s ease;
+            }
+
+            .fade-in.visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            /* Responsive */
+            @media (max-width: 768px) {
+                .profile-container {
+                    flex-direction: column;
+                    text-align: center;
+                }
+
+                .profile-photo {
+                    margin-left: 0;
+                    margin-top: 2rem;
+                    width: 180px;
+                    height: 180px;
+                }
+
+                .profile-divider {
+                    margin: 1.5rem auto;
+                }
+
+                .profile-info h1 {
+                    font-size: 2.5rem;
+                }
+
+                nav ul {
+                    gap: 0.25rem;
+                }
+
+                nav ul li a {
+                    font-size: 0.75rem;
+                    padding: 0.4rem 0.6rem;
+                }
+
+                .journey-highlights-only {
+                    flex-wrap: wrap;
+                    gap: 0.5rem;
+                }
+
+                .journey-highlight-card {
+                    border-right: none;
+                    padding: 0.4rem 1rem;
+                }
+
+                .week-content.active {
+                    grid-template-columns: 1fr;
+                }
+
+                .value-additions,
+                .project-images,
+                .impact-grid,
+                .ai-impact-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+
+                .feedback-carousel-wrapper {
+                    margin: 0 3rem;
+                }
+
+                .learnings-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+
+                .journey-highlights-only {
+                    flex-wrap: wrap;
+                    gap: 0.5rem;
+                }
+
+                .journey-highlight-card {
+                    border-right: none;
+                    padding: 0.4rem 1rem;
+                }
+            }
+        </style>
+    </head>
+    <body>
+
+        <!-- Navigation -->
+        <nav>
+            <div class="nav-container">
+                <div class="logo">My<span>Intern</span>Ship</div>
+                <ul>
+                    <li><a href="#profile" class="active">Profile</a></li>
+                    <li><a href="#journey">Journey</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#reinvest">Re-invest</a></li>
+                    <li><a href="#ai-impact">AI Impact</a></li>
+                    <li><a href="#feedback">Feedback</a></li>
+                    <li><a href="#learnings">Learnings</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Go to Top Button -->
+        <button class="go-top" id="goTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">&#8593;</button>
+
+        <!-- Profile Section -->
+        <section id="profile">
+            <div class="profile-orb orb-1"></div>
+            <div class="profile-orb orb-2"></div>
+            <div class="profile-orb orb-3"></div>
+            <div class="profile-orb orb-4"></div>
+            <div class="profile-orb orb-5"></div>
+            <div class="profile-container">
+                <div class="profile-info">
+                    <p class="greeting">Hello, I'm</p>
+                    <h1>Garima Gupta</h1>
+                    <p class="tagline">Summer Intern 2026 &bull; Corporate Deals Technology</p>
+                    <div class="profile-divider"></div>
+                    <p class="tagline" style="margin-top: 0; font-size: 0.95rem; font-style: italic;">Let's look at a 2-month summer sprint through integration deals, dashboards, AI ideas, and plenty of learning moments</p>
+                </div>
+                <div class="profile-photo">
+                    <img src="profile.jpg" alt="Garima Gupta">
+                </div>
+            </div>
+        </section>
+
+        <!-- Internship Journey Section -->
+        <section id="journey">
+            <h2 class="section-title fade-in">Internship Journey</h2>
+            <p class="section-subtitle fade-in">8 weeks of learning, building, and growing</p>
+
+            <div class="journey-overview fade-in">
+                <div class="journey-highlights-only">
+                    <div class="journey-highlight-card">
+                        <div class="highlight-number">8</div>
+                        <div class="highlight-label">Weeks</div>
+                    </div>
+                    <div class="journey-highlight-card">
+                        <div class="highlight-number">2</div>
+                        <div class="highlight-label">Client Projects</div>
+                    </div>
+                    <div class="journey-highlight-card">
+                        <div class="highlight-number">1</div>
+                        <div class="highlight-label">Re-Invest</div>
+                    </div>
+                    <div class="journey-highlight-card">
+                        <div class="highlight-number">1</div>
+                        <div class="highlight-label">AI Initiative</div>
+                    </div>
+                    <div class="journey-highlight-card">
+                        <div class="highlight-number" style="font-size: 1.9rem;">&infin;</div>
+                        <div class="highlight-label">Learnings</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="week-tabs fade-in">
+                <button class="week-tab active" data-week="1">Week 1 - 2</button>
+                <button class="week-tab" data-week="2">Week 3 - 4</button>
+                <button class="week-tab" data-week="3">Week 5 - 6</button>
+                <button class="week-tab" data-week="4">Week 7 - 8</button>
+            </div>
+
+            <div class="week-content active" data-week="1">
+                <img class="week-image" src="Week 1-2.png" alt="Week 1-2" style="object-fit: cover;">
+                <div class="week-experience">
+                    <h4>Onboarding & Discovery</h4>
+                    <p>The first two weeks were all about stepping in - 
+                        starting with induction, leader 
+                        sessions, PwC values, networking, and an AI 
+                        prototype challenge, followed by a 2-day bootcamp
+                        that introduced me to deal phases and set the stage 
+                        for project work.</p>
+                </div>
+            </div>
+
+            <div class="week-content" data-week="2">
+                <div class="week-experience">
+                    <h4>First Contributions & Project Ramp-Up</h4>
+                    <p>Excited and slightly nervous, I began contributing to 
+                        two projects across different deal phases - Phoenix & Rioja . With every 
+                        deliverable, my curiosity and the team’s mentorship 
+                        made the learning curve both exciting and rewarding.</p>
+                </div>
+                <img class="week-image" src="week 3-4.png" alt="Week 3-4" style="object-fit: cover;">
+            </div>
+
+            <div class="week-content" data-week="3">
+                <img class="week-image" src="week 5-6.jpg" alt="Week 5-6" style="object-fit: cover;">
+                <div class="week-experience">
+                    <h4>Mid-Review & CSR Impact</h4>
+                    <p>These two weeks brought together growth and giving back, from 
+                        my mid-review with my DL and coach, which helped me reflect 
+                        on feedback and focus areas, to a CSR planting activity 
+                        that gave me a chance to connect with fellow interns 
+                        while contributing to nature.</p>
+                </div>
+            </div>
+
+            <div class="week-content" data-week="4">
+                <div class="week-experience">
+                    <h4>Final Sprint & Presentations</h4>
+                    <p>The final sprint brought everything together - project work, 
+                        re-invest initiatives, AI ideas, and the final review. 
+                        It was a phase of accelerated growth, diverse learning, and 
+                        stepping outside my comfort zone, while reflecting on the value I 
+                        delivered and how much 
+                        I had learned in a once-new domain .</p>
+                </div>
+                <img class="week-image" src="week 7-8.jpg" alt="Week 7-8" style="object-fit: cover;">
+            </div>
+        </section>
+
+        <!-- Project Work Section -->
+        <section id="projects">
+            <h2 class="section-title fade-in">Project Work</h2>
+            <p class="section-subtitle fade-in">Key projects that drove real business impact</p>
+
+            <!-- Project Phoenix -->
+            <div class="project-accordion fade-in" id="phoenix">
+                <div class="project-accordion-header" onclick="toggleAccordion('phoenix')">
+                    <div class="project-icon">P</div>
+                    <div class="project-title-group">
+                        <p class="project-label">Project</p>
+                        <h3>Phoenix</h3>
+                        <p class="project-desc-short">TSA exit planning for FIS</p>
+                    </div>
+                    <div class="accordion-toggle">
+                        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+                    </div>
+                </div>
+                <div class="project-accordion-body">
+                    <div class="project-about">
+                        <p>Supported FIS in planning the IT transition for its Credit Issuing business and TSA exit, with focus on reducing dependency on GPN systems while protecting business continuity.</p>
+                    </div>
+
+                    <p class="section-label">Key Contributions</p>
+                    <div class="carousel-container">
+                        <button class="carousel-btn prev" onclick="moveCarousel('phoenix-carousel', -1)">
+                            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+                        </button>
+                        <div class="carousel-wrapper">
+                            <div class="carousel-track" id="phoenix-carousel">
+                                <div class="carousel-card">
+                                    <div class="card-text"><strong>Enabled CXO decision-making on Island Browser</strong> by framing 2 options across 6 controls and 4 risk areas</div>
+                                </div>
+                                <div class="carousel-card">
+                                    <div class="card-text"><strong>Surfaced TIS access gaps and grouped users</strong> by migration priority before laptop movement decisions</div>
+                                </div>
+                                <div class="carousel-card">
+                                    <div class="card-text"><strong>Cleaned and analyzed 35k+ Cisco assets across 87 addresses,</strong> while identifying 69% data gaps for stakeholder action</div>
+                                </div>
+                                <div class="carousel-card">
+                                    <div class="card-text"><strong>Framed 3 options for FIS executives</strong> to restart asset registration and unblock Q3 revenue enablement</div>
+                                </div>
+                                <div class="carousel-card">
+                                    <div class="card-text"><strong>Proposed a 12-step roadmap for the 6-week SC engagement,</strong> clarifying ownership, timelines, and handoffs</div>
+                                </div>
+                                <div class="carousel-card">
+                                    <div class="card-text"><strong>Created a 148-product inventory</strong> separating NA and International products and flagging 55 priorities to improve tracking clarity</div>
+                                </div>
+                                <div class="carousel-card">
+                                    <div class="card-text"><strong>Mapped 20+ Capital One applications to different agreements</strong> for transition ownership clarity</div>
+                                </div>
+                                <div class="carousel-card">
+                                    <div class="card-text"><strong>Converted 10+ workshop sessions into a centralized action and decision log</strong> for clearer ownership, status tracking, and follow-up</div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="carousel-btn next" onclick="moveCarousel('phoenix-carousel', 1)">
+                            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+                        </button>
+                        <div class="carousel-dots" id="phoenix-carousel-dots"></div>
+                    </div>
+
+                    <p class="section-label">Impact</p>
+                    <div class="project-impact-grid">
+                        <div class="project-impact-tile" data-number="1">
+                            <div class="tile-bg"></div>
+                            <p>Restored FIS's path to Q3 revenue enablement - 3 executive options and a 6-week roadmap gave FIS a clear path</p>
+                        </div>
+                        <div class="project-impact-tile" data-number="2">
+                            <div class="tile-bg"></div>
+                            <p>Enabled informed Leadership Decision on Island Browser controls, reducing productivity friction during EUC migration</p>
+                        </div>
+                        <div class="project-impact-tile" data-number="3">
+                            <div class="tile-bg"></div>
+                            <p>35000+ cleaned asset records gave the team a reliable, connected data foundation for transition execution</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project Rioja -->
+            <div class="project-accordion fade-in" id="rioja">
+                <div class="project-accordion-header" onclick="toggleAccordion('rioja')">
+                    <div class="project-icon">R</div>
+                    <div class="project-title-group">
+                        <p class="project-label">Project</p>
+                        <h3>Rioja</h3>
+                        <p class="project-desc-short">Day 1 IT planning for SiTime</p>
+                    </div>
+                    <div class="accordion-toggle">
+                        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+                    </div>
+                </div>
+                <div class="project-accordion-body">
+                    <div class="project-about">
+                        <p>Supported Day 1 IT planning for SiTime, covering user access, engineering/VDE readiness, data migration, infrastructure, and key system dependencies needed for close.</p>
+                    </div>
+
+                    <p class="section-label">Key Contributions</p>
+                    <div class="carousel-container">
+                        <button class="carousel-btn prev" onclick="moveCarousel('rioja-carousel', -1)">
+                            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+                        </button>
+                        <div class="carousel-wrapper">
+                            <div class="carousel-track" id="rioja-carousel">
+                                <div class="carousel-card">
+                                    <div class="card-text"><strong>Consolidated VDE Day 1 equipment and license needs, highlighting $1.74M+ in identified cost impact</strong> to support stakeholder review and funding decisions</div>
+                                </div>
+                                <div class="carousel-card">
+                                    <div class="card-text"><strong>Structured Day-1 workplan across 8+ IT workstreams, identifying 300+ activities and milestones</strong> to improve execution tracking</div>
+                                </div>
+                                <div class="carousel-card">
+                                    <div class="card-text"><strong>Built a High-Level Execution Roadmap across VDE, EUC and M365</strong> to have leadership aligned on progress, ownership, and open items through close</div>
+                                </div>
+                                <div class="carousel-card">
+                                    <div class="card-text"><strong>Built a Day 1 VDE equipment tracker for 18 assets across 24 fields</strong>, improving visibility into ownership, procurement, cost, and transition readiness</div>
+                                </div>
+                                <div class="carousel-card">
+                                    <div class="card-text"><strong>Converted 4+ sync calls into structured meeting notes and RAID log updates</strong>, improving follow-up on actions, risks, dependencies, and open questions</div>
+                                </div>
+                                <div class="carousel-card">
+                                    <div class="card-text"><strong>Tracked 27 application systems across migration scope,</strong> Day 1 readiness, dependencies, and out-of-scope areas providing a definitive view on data migration</div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="carousel-btn next" onclick="moveCarousel('rioja-carousel', 1)">
+                            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+                        </button>
+                        <div class="carousel-dots" id="rioja-carousel-dots"></div>
+                    </div>
+
+                    <p class="section-label">Impact</p>
+                    <div class="project-impact-grid">
+                        <div class="project-impact-tile" data-number="1">
+                            <div class="tile-bg"></div>
+                            <p>Enabled Day-1 readiness across 8+ IT workstreams - 300+ activities structured to ensure milestone accountability</p>
+                        </div>
+                        <div class="project-impact-tile" data-number="2">
+                            <div class="tile-bg"></div>
+                            <p>Helped finalize Day-1 migration scope across 27 systems giving stakeholders a clear view of what needed to move across</p>
+                        </div>
+                        <div class="project-impact-tile" data-number="3">
+                            <div class="tile-bg"></div>
+                            <p>Improved VDE funding visibility helping stakeholders align on funding, ownership, and Day 1 infrastructure needs</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Re-invest Section -->
+        <section id="reinvest">
+            <h2 class="section-title fade-in">Re-Invest - AC Quality</h2>
+            <!-- <p class="section-subtitle fade-in"></p> -->
+
+            <div class="reinvest-about fade-in">
+                <p>Identified gaps in the existing engagement status comparison process between the Utilisation Tracker and DEH, and proposed a comprehensive Power Query dashboard to automate validation checks. Additionally, created a guidebook to support product leads in accurately completing Global ISMS information in DEH.</p>
+            </div>
+
+            <div class="impact-grid fade-in">
+                <div class="impact-card">
+                    <div class="impact-icon">&#9889;</div>
+                    <p>Reduced manual effort & improved efficiency</p>
+                </div>
+                <div class="impact-card">
+                    <div class="impact-icon">&#127919;</div>
+                    <p>Improved data accuracy & consistency</p>
+                </div>
+                <div class="impact-card">
+                    <div class="impact-icon">&#128214;</div>
+                    <p>Reusable guidebook for future use</p>
+                </div>
+            </div>
+
+            <div style="text-align: center;" class="fade-in">
+                <a href="https://pwc-my.sharepoint.com/:x:/r/personal/garima_u_gupta_pwc_com/Documents/Engagement%20Tracker%20-%20Power%20Query%20Dashboard.xlsx?d=web3a016b49fb4392977b1d00f5f93cc8&csf=1&web=1&e=ervHff" target="_blank" class="cta-link">&#10024;Try the tracker</a>
+            </div>
+        </section>
+
+        <!-- AI Impact Section -->
+        <section id="ai-impact">
+            <h2 class="section-title fade-in">AI Powered - Knowledge Hub</h2>
+            <p class="section-subtitle fade-in">Leveraging AI to amplify team productivity</p>
+
+            <div class="ai-about fade-in">
+                <p>Conceptualized a central AI-powered hub that auto-redacts confidential information from any uploaded deliverable, tags it with the methodology behind it and lets anyone in the firm find the right template through plain-English search
+</p>
+            </div>
+
+            <div class="ai-impact-grid fade-in" style="grid-template-columns: repeat(3, 1fr);">
+                <div class="ai-impact-card">
+                    <div class="ai-number">&#9889;</div>
+                    <p>Improving productivity</p>
+                </div>
+                <div class="ai-impact-card">
+                    <div class="ai-number">&#128218;</div>
+                    <p>Knowledge retention</p>
+                </div>
+                <div class="ai-impact-card">
+                    <div class="ai-number">&#128274;</div>
+                    <p>Enables compliant knowledge sharing</p>
+                </div>
+            </div>
+
+            <div style="text-align: center;" class="fade-in">
+                <a href="#" class="try-me-btn">&#10024; Try Knowledge Hub</a>
+            </div>
+        </section>
+
+        <!-- Feedback Section -->
+        <section id="feedback">
+            <h2 class="section-title fade-in">Feedback from Team</h2>
+            <p class="section-subtitle fade-in">Words from mentors and colleagues</p>
+
+            <div class="feedback-carousel-container fade-in">
+                <button class="carousel-btn prev" onclick="moveCarousel('feedback-carousel', -1)">
+                    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <div class="feedback-carousel-wrapper">
+                    <div class="feedback-carousel-track" id="feedback-carousel">
+                        <div class="feedback-card">
+                            <div class="feedback-block">
+                                Garima is a dependable team member who brings consistency and diligence to her work. She manages tasks and coordination responsibilities reliably and engages constructively with direction. With continued exposure to more complex problem-solving and senior stakeholder engagement, she has good scope to grow into core consulting roles.
+                            </div>
+                            <p class="author">- Ayona Chakraborty (Project Manager)</p>
+                        </div>
+                        <div class="feedback-card">
+                            <div class="feedback-block">
+                                Garima can continue to broaden her industry and sector knowledge while bringing more AI into her delivery. She can further sharpen her slide-writing, storytelling, and financial modeling skills for a successful consulting and M&A career.
+                            </div>
+                            <p class="author">- Arihant Jain (AC Quality Lead)</p>
+                        </div>
+                        <div class="feedback-card">
+                            <div class="feedback-block">
+                                Garima has shown strong composure and professionalism while working across multiple deliverables and shifting priorities across both the engagements. Her work reflected good structure, careful thinking, and a genuine willingness to learn. She also integrated feedback well and steadily built confidence so far. Expect her to continue to learn, develop, grow and deliver in the remaining course of the internship as well!
+                            </div>
+                            <p class="author">- Prakhar Jain (Senior Associate)</p>
+                        </div>
+                        <div class="feedback-card">
+                            <div class="feedback-block">
+                                Garima was a valuable contributor across both projects. She was dependable, responsive, and willing to take on a broad range of tasks across planning, tracking, and stakeholder materials. She showed strong attention to detail and helped improve visibility into key workstreams, owners, timelines, risks, and open items. She also demonstrated adaptability by quickly ramping up across different project contexts and producing clear, organized outputs for the team.
+                            </div>
+                            <p class="author">- Thanmayee Dondapati (Associate)</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-btn next" onclick="moveCarousel('feedback-carousel', 1)">
+                    <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+                <div class="carousel-dots" id="feedback-carousel-dots"></div>
+            </div>
+        </section>
+
+        <!-- Key Learnings & Experience Section -->
+        <section id="learnings">
+            <h2 class="section-title fade-in">Key Learnings & Experience</h2>
+            <p class="section-subtitle fade-in">What I take away from this journey</p>
+
+            <div class="learnings-grid fade-in">
+                <div class="learning-card">
+                    <div class="learning-header">
+                        <div class="learning-title">M&A execution starts before close</div>
+                        <div class="learning-number">01</div>
+                    </div>
+                    <div class="learning-detail">Learnt to surface owners, blockers, and dependencies early, even before deal closure</div>
+                </div>
+                <div class="learning-card">
+                    <div class="learning-header">
+                        <div class="learning-title">Business continuity is the core lens</div>
+                        <div class="learning-number">02</div>
+                    </div>
+                    <div class="learning-detail">Across both projects, business continuity anchored every step</div>
+                </div>
+                <div class="learning-card">
+                    <div class="learning-header">
+                        <div class="learning-title">Current-state clarity drives transition path</div>
+                        <div class="learning-number">03</div>
+                    </div>
+                    <div class="learning-detail">Better understanding of as-is process helped shape more realistic workplans for SiTime</div>
+                </div>
+                <div class="learning-card">
+                    <div class="learning-header">
+                        <div class="learning-title">AI as structural leverage</div>
+                        <div class="learning-number">04</div>
+                    </div>
+                    <div class="learning-detail">Trackers, dashboards, structure work - all came together faster with AI</div>
+                </div>
+            </div>
+
+            <div class="experience-block fade-in">
+                <h3>Overall Experience</h3>
+                <p>
+                    My experience at PwC was nothing short of a learning journey in a
+                    field that was completely new to me. I started the summer excited
+                    to explore M&A deals, and it became even more exciting when I got to
+                    contribute to two live projects. Along the way, I understood how deal
+                    processes work, gained exposure to key transition phases, and learned
+                    from people across teams. Someone told me early on that <b><i>internships
+                    are not just about the organization evaluating you,
+                    but also about you evaluating the organization</i></b> and I can safely
+                    say my summer was full of learning, networking, and meaningful work.
+                </p>
+            </div>
+        </section>
+
+        <!-- Lightbox Overlay -->
+        <div class="lightbox-overlay" id="lightbox" onclick="closeLightbox()">
+            <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+            <img id="lightbox-img" src="" alt="Screenshot">
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>Made with dedication &bull; <span>PwC</span> Summer Internship 2026</p>
+        </footer>
+
+        <script>
+            const goTopBtn = document.getElementById('goTop');
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    goTopBtn.classList.add('visible');
+                } else {
+                    goTopBtn.classList.remove('visible');
+                }
+            });
+
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('nav ul li a');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 100;
+                    if (window.scrollY >= sectionTop) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#' + current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+
+            const weekTabs = document.querySelectorAll('.week-tab');
+            const weekContents = document.querySelectorAll('.week-content');
+
+            weekTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    weekTabs.forEach(t => t.classList.remove('active'));
+                    weekContents.forEach(c => c.classList.remove('active'));
+
+                    tab.classList.add('active');
+                    const week = tab.getAttribute('data-week');
+                    document.querySelector(`.week-content[data-week="${week}"]`).classList.add('active');
+                });
+            });
+
+            const fadeElements = document.querySelectorAll('.fade-in');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            fadeElements.forEach(el => observer.observe(el));
+
+            // Accordion toggle
+            function toggleAccordion(id) {
+                const el = document.getElementById(id);
+                el.classList.toggle('expanded');
+            }
+
+            // Carousel
+            const carouselState = {};
+
+            const carouselConfig = {
+                'phoenix-carousel': { visibleCards: 2, gap: 16 },
+                'rioja-carousel': { visibleCards: 2, gap: 16 },
+                'feedback-carousel': { visibleCards: 1, gap: 0 }
+            };
+
+            function getCarouselParams(trackId) {
+                return carouselConfig[trackId] || { visibleCards: 2, gap: 16 };
+            }
+
+            function initCarouselDots(trackId) {
+                const track = document.getElementById(trackId);
+                const config = getCarouselParams(trackId);
+                const cards = track.children;
+                const totalPages = Math.max(1, cards.length - config.visibleCards + 1);
+                const dotsContainer = document.getElementById(trackId + '-dots');
+                dotsContainer.innerHTML = '';
+                for (let i = 0; i < totalPages; i++) {
+                    const dot = document.createElement('button');
+                    dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+                    dot.onclick = () => goToCarousel(trackId, i);
+                    dotsContainer.appendChild(dot);
+                }
+            }
+
+            function updateCarouselDots(trackId) {
+                const dotsContainer = document.getElementById(trackId + '-dots');
+                const dots = dotsContainer.querySelectorAll('.carousel-dot');
+                const current = carouselState[trackId] || 0;
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === current);
+                });
+            }
+
+            function goToCarousel(trackId, index) {
+                const track = document.getElementById(trackId);
+                const config = getCarouselParams(trackId);
+                const cards = track.children;
+                const cardWidth = cards[0].offsetWidth + config.gap;
+                carouselState[trackId] = index;
+                track.style.transform = `translateX(-${index * cardWidth}px)`;
+                updateCarouselDots(trackId);
+            }
+
+            function moveCarousel(trackId, direction) {
+                const track = document.getElementById(trackId);
+                const config = getCarouselParams(trackId);
+                const cards = track.children;
+                const cardWidth = cards[0].offsetWidth + config.gap;
+                const maxIndex = Math.max(0, cards.length - config.visibleCards);
+
+                if (!carouselState[trackId]) carouselState[trackId] = 0;
+
+                carouselState[trackId] += direction;
+                if (carouselState[trackId] < 0) carouselState[trackId] = 0;
+                if (carouselState[trackId] > maxIndex) carouselState[trackId] = maxIndex;
+
+                track.style.transform = `translateX(-${carouselState[trackId] * cardWidth}px)`;
+                updateCarouselDots(trackId);
+            }
+
+            initCarouselDots('phoenix-carousel');
+            initCarouselDots('rioja-carousel');
+            initCarouselDots('feedback-carousel');
+
+            function openLightbox(imgSrc) {
+                const lightbox = document.getElementById('lightbox');
+                const lightboxImg = document.getElementById('lightbox-img');
+                lightboxImg.src = imgSrc;
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeLightbox() {
+                const lightbox = document.getElementById('lightbox');
+                lightbox.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeLightbox();
+            });
+        </script>
+
+    </body>
+    </html>
